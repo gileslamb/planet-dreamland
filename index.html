@@ -12,7 +12,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Comfortaa:wght@500;700&family=Fredoka:wght@500;700&family=Grandstander:wght@600;800&family=Nunito:wght@400;600;700&family=Pangolin&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&family=Grandstander:wght@600;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -64,23 +64,6 @@ body{
   font-size:64px;
   letter-spacing:0.5px;
 }
-
-/* ── FONT PICKER (temporary, for choosing with Sacha) ── */
-.fontpicker{
-  position:fixed;left:18px;bottom:18px;z-index:6;
-  display:flex;align-items:center;gap:8px;
-  font-family:'Nunito',sans-serif;font-size:0.74rem;
-  color:rgba(223,232,251,0.6);
-}
-.fontpicker label{letter-spacing:0.08em;text-transform:uppercase;}
-.fontpicker select{
-  font-family:'Nunito',sans-serif;font-size:0.82rem;
-  padding:7px 10px;border-radius:10px;cursor:pointer;
-  border:1px solid rgba(200,216,248,0.22);
-  background:rgba(7,7,38,0.6);backdrop-filter:blur(10px);
-  color:var(--text);outline:none;
-}
-.fontpicker select:focus{border-color:var(--amber);}
 
 /* ── BOTTOM: tagline + form ── */
 .bottom{
@@ -197,7 +180,6 @@ body{
   .note{font-size:0.72rem;margin-top:9px;max-width:330px;}
 
   .brand{display:none;}
-  .fontpicker{top:12px;left:12px;bottom:auto;}
 }
 @media (prefers-reduced-motion:reduce){
   .top,.bottom{animation:none;opacity:1;transform:none;}
@@ -263,17 +245,6 @@ body{
 
 <p class="brand">A Curious Dreamers creation</p>
 
-<div class="fontpicker">
-  <label for="font-select">Font</label>
-  <select id="font-select" aria-label="Wordmark font">
-    <option>Grandstander</option>
-    <option>Comfortaa</option>
-    <option>Fredoka</option>
-    <option>Bubblegum Sans</option>
-    <option>Pangolin</option>
-  </select>
-</div>
-
 <script>
 /* ───────── CONFIG ───────── */
 const SIGNUP_ENDPOINT = "https://giles-engine.gileslamb.workers.dev/dreamland/subscribe";
@@ -287,8 +258,8 @@ const TRACKS = [
   { title:"Hello Moon",      src:"https://pub-2b9a4a895c154bf7b7a368d590f2a3af.r2.dev/Hello%20Moon%20-%20inst%20.mp3" },
 ];
 
-/* Wordmark face. The on-page picker changes this live for choosing with Sacha. */
-let WORDMARK_FONT = "Grandstander";
+/* Wordmark face (locked to Grandstander). */
+const WORDMARK_FONT = "Grandstander";
 
 /* True audio reactivity needs CORS enabled on the R2 bucket. Until then the
    mobile breathes on its own (looks near-identical, and never risks the audio).
@@ -299,7 +270,6 @@ const AUDIO_REACTIVE = false;
 (function(){
   const text = document.getElementById('wordmark-text');
   const arc  = document.getElementById('wm-arc');
-  const sel  = document.getElementById('font-select');
 
   function fit(){
     if(!text.getComputedTextLength) return;
@@ -311,12 +281,9 @@ const AUDIO_REACTIVE = false;
     if(len > maxLen){ text.style.fontSize = (fs * maxLen / len) + 'px'; }
   }
   function apply(name){
-    WORDMARK_FONT = name;
     text.style.fontFamily = "'" + name + "', cursive";
     fit();
   }
-  sel.value = WORDMARK_FONT;
-  sel.addEventListener('change', e => apply(e.target.value));
   window.addEventListener('resize', fit);
   if(document.fonts && document.fonts.ready){ document.fonts.ready.then(()=>apply(WORDMARK_FONT)); }
   else { apply(WORDMARK_FONT); }
