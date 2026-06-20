@@ -172,14 +172,32 @@ body{
 }
 
 @media (max-width:600px){
+  .top{padding-top:3vh;}
+  .eyebrow{margin-bottom:3px;}
+  .bottom{padding:0 18px 3vh;}
+  .lede{font-size:0.84rem;line-height:1.5;max-width:340px;margin:0 auto 11px;}
+
+  /* player becomes a thin pill below the paragraph, clear of the mobile */
   .player{
     position:static; top:auto; right:auto;
-    width:100%; max-width:440px;
-    margin:2px auto 18px;
+    width:100%; max-width:420px; margin:0 auto 11px;
+    display:flex; align-items:center; gap:8px;
+    padding:7px 9px 7px 14px; border-radius:999px;
   }
-}
-@media (max-width:540px){
-  .signup{flex-direction:column;}
+  .player-title{flex-direction:row; align-items:center; margin-bottom:0; flex:1 1 auto; min-width:0;}
+  .player-title .np{display:none;}
+  .player-title #track-title{font-size:0.84rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .player-controls{flex:0 0 auto;}
+  .pbtn{width:30px;height:30px;}
+  .pbtn.pp{width:34px;height:34px;}
+
+  .signup{flex-direction:row; gap:8px;}
+  .signup input[type="email"]{padding:12px 14px;font-size:0.92rem;}
+  .signup button{padding:12px 14px;font-size:0.9rem;}
+  .note{font-size:0.72rem;margin-top:9px;max-width:330px;}
+
+  .brand{display:none;}
+  .fontpicker{top:12px;left:12px;bottom:auto;}
 }
 @media (prefers-reduced-motion:reduce){
   .top,.bottom{animation:none;opacity:1;transform:none;}
@@ -478,11 +496,13 @@ const AUDIO_REACTIVE = false;
     puff((W*0.18 + (t*6)%(W+260))-130, H*0.66, m*0.7, m*0.34, 6, 0.05);
     puff((W*0.7 + (t*4)%(W+260))-130, H*0.78, m*0.85, m*0.4, 6, 0.045);
 
-    // mobile geometry
+    // mobile geometry (lift + compress on portrait so the orbs stay fully visible)
+    const portrait = W <= 600;
     const cx=W*0.5 + Math.sin(t*0.25)*W*0.012;
-    const canopyY=H*0.27;
-    const cy=H*0.47 + Math.sin(t*0.4)*H*0.008;
-    const Rx=m*0.20, Ry=m*0.05, base=m*0.05;
+    const canopyY=H*(portrait?0.205:0.27);
+    const cy=H*(portrait?0.42:0.47) + Math.sin(t*0.4)*H*0.008;
+    const Rx=m*(portrait?0.235:0.20), Ry=m*0.05, base=m*0.05;
+    const dyK = portrait?0.6:1;
 
     // central nightlight bloom (additive)
     ctx.globalCompositeOperation='lighter';
@@ -503,7 +523,7 @@ const AUDIO_REACTIVE = false;
       const ang=o.ang0+rotAccum;
       const depth=Math.sin(ang);
       const x=cx+Math.cos(ang)*Rx*o.ringX*vis.spread;
-      const y=cy + o.dy*H + depth*Ry;
+      const y=cy + o.dy*H*dyK + depth*Ry;
       const scale=0.72+0.28*((depth+1)/2);
       const self=0.9+0.1*Math.sin(t*o.self+o.ang0);
       const intensity=(0.6+0.4*((depth+1)/2))*(0.85+0.15*pulse)*self;
