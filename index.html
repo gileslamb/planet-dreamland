@@ -247,7 +247,7 @@ body{
 
 <script>
 /* ───────── CONFIG ───────── */
-const SIGNUP_ENDPOINT = "https://giles-engine.gileslamb.workers.dev/dreamland/subscribe";
+const SIGNUP_ENDPOINT = "https://giles-engine.gileslamb.workers.dev/capture";
 
 /* Playlist. Order sets the player order; track 0 is the default on load.
    Each track's visual variant (palette / spread / speed) lives in TRACK_THEMES
@@ -532,7 +532,7 @@ const AUDIO_REACTIVE = false;
     btn.disabled=true; say('Adding you...');
     try{
       const res=await fetch(SIGNUP_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({email,source:'dreamland-holding',source_detail:'planet-dreamland',
+        body:JSON.stringify({email,source:'curious-dreamers',source_detail:'dreamland-holding',
           consent_text:'Opted in to Dreamland updates from Curious Dreamers via the holding page.',
           consent_at:new Date().toISOString()})});
       if(!res.ok) throw new Error('status '+res.status);
