@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Planet Dreamland · Curious Dreamers</title>
-<meta name="description" content="From the creators of Hushabye Lullaby. A new world to share at bedtime. Be the first to know.">
+<title>Dreamland · Curious Dreamers</title>
+<meta name="description" content="From the creators of CBeebies Hushabye Lullabye. A new world to share at bedtime. Be the first to know.">
 
-<meta property="og:title" content="Planet Dreamland is coming">
-<meta property="og:description" content="From the creators of Hushabye Lullaby. Something magical, beautiful, cosy and musical is on its way.">
+<meta property="og:title" content="Dreamland is coming">
+<meta property="og:description" content="From the creators of CBeebies Hushabye Lullabye. Something magical, beautiful, cosy and musical is on its way.">
 <meta property="og:type" content="website">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -195,8 +195,8 @@ body{
 <audio id="track" loop preload="auto"></audio>
 
 <header class="top">
-  <p class="eyebrow">From the creators of Hushabye Lullaby</p>
-  <svg class="wordmark" viewBox="0 0 600 158" role="img" aria-label="Planet Dreamland">
+  <p class="eyebrow">From the creators of CBeebies Hushabye Lullabye</p>
+  <svg class="wordmark" viewBox="0 0 600 158" role="img" aria-label="Dreamland">
     <defs>
       <linearGradient id="wm-grad" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#fff7e6"/>
@@ -209,7 +209,7 @@ body{
       <path id="wm-arc" d="M 30 140 Q 300 26 570 140" fill="none"/>
     </defs>
     <text id="wordmark-text" fill="url(#wm-grad)" filter="url(#wm-glow)">
-      <textPath href="#wm-arc" startOffset="50%" text-anchor="middle">Planet Dreamland</textPath>
+      <textPath href="#wm-arc" startOffset="50%" text-anchor="middle">Dreamland</textPath>
     </text>
   </svg>
 </header>
@@ -273,12 +273,11 @@ const AUDIO_REACTIVE = false;
 
   function fit(){
     if(!text.getComputedTextLength) return;
+    const MAXFS = 84;
     const maxLen = arc.getTotalLength() * 0.94;
-    let fs = 64; text.style.fontSize = fs + 'px';
-    let len = text.getComputedTextLength();
-    if(len > 0){ fs = Math.min(64, fs * maxLen / len); text.style.fontSize = fs + 'px'; }
-    len = text.getComputedTextLength();
-    if(len > maxLen){ text.style.fontSize = (fs * maxLen / len) + 'px'; }
+    text.style.fontSize = MAXFS + 'px';
+    const len = text.getComputedTextLength();
+    if(len > maxLen){ text.style.fontSize = (MAXFS * maxLen / len) + 'px'; }
   }
   function apply(name){
     text.style.fontFamily = "'" + name + "', cursive";
@@ -534,7 +533,7 @@ const AUDIO_REACTIVE = false;
     try{
       const res=await fetch(SIGNUP_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({email,source:'dreamland-holding',source_detail:'planet-dreamland',
-          consent_text:'Opted in to Planet Dreamland updates from Curious Dreamers via the holding page.',
+          consent_text:'Opted in to Dreamland updates from Curious Dreamers via the holding page.',
           consent_at:new Date().toISOString()})});
       if(!res.ok) throw new Error('status '+res.status);
       content.classList.add('done');
